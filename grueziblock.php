@@ -15,6 +15,7 @@
  * License URI:  https://opensource.org/licenses/MIT
  */
 
+// this is the action you use to add scripts and styles to the editor. It doesn't add to the front end, just the editor.
 add_action( 'enqueue_block_editor_assets', 'grueziblock_scripts_and_styles' );
 function grueziblock_scripts_and_styles() {
 	wp_enqueue_script(
@@ -36,6 +37,7 @@ function grueziblock_scripts_and_styles() {
 	);
 }
 
+// to use the source: meta in registerBlockType, the meta needs to be registered via register_meta which puts it in the meta object in the post json
 add_action( 'init', 'grueziblock_register_the_meta' );
 function grueziblock_register_the_meta() {
 	register_meta( 

@@ -14,20 +14,12 @@ registerBlockType( 'grueziblock/faq', {
 	icon: 'index-card', // you can pick different icons. there must be a list somewhere.
 	category: 'common', // where do you want this to show up? this will be under "common" in the blocks
 	attributes: {
-		// our faq, like many faqs, will have questions and answers
-		// Ha HA, this is where things have changed. Because we have two Editable components (I think this is why I need to do this),
-		// I am going to query the div then pick out the nodes I need
-		frequentlyAskedQuestion: {
-			source: 'query', // https://wordpress.org/gutenberg/handbook/reference/attributes/#query
-			selector: 'div', // ok, get the div and phew there's only one div
-			query: {
-				q: { source: 'text', selector: 'h4' }, // the question is in the h4
-            	a: { source: 'text', selector: 'p.answer' } // the answer is in p.answer
-            }
-		},
-
-		question: {},
-		answer: {},
+		// this is a faq with only questions. It's frequently asked *questions*, it says nothing about answers.
+		question: {            
+			type: 'array',
+			source: 'children',
+			selector: 'h4'
+		}
 	},
 
 	// this is responsible for the editor side of things in wp-admin when you're making a post
@@ -69,28 +61,15 @@ registerBlockType( 'grueziblock/faq', {
 		// 
 		// So for each editable field, I use an Editable compontent which handles the editableness of that bit. I can put html all around everything
 		return (
-
-			<div className={ props.className } key="editor">
-					<Editable
-						tagName="h4"
-						placeholder={ __( 'Please add a question here' ) }
-						value={ attributes.question }
-						onChange={ onChangeQuestion }
-						focus={ focusedEditable === 'question' }
-						onFocus={ onFocusQuestion }
-					/>
-	
-					
-					<Editable
-						tagName="p"
-						className="answer"
-						placeholder={ __( 'Please add an answer here' ) }
-						value={ attributes.answer }
-						onChange={ onChangeAnswer }
-						focus={ focusedEditable === 'answer' }
-						onFocus={ onFocusAnswer }
-					/>
-			</div>
+			<Editable
+				tagName="h4"
+				className={ props.className }
+				placeholder={ __( 'Please add a question here' ) }
+				value={ attributes.question }
+				onChange={ onChangeQuestion }
+				focus={ focusedEditable === 'question' }
+				onFocus={ onFocusQuestion }
+			/>
 		);
 	},
 
@@ -123,12 +102,7 @@ registerBlockType( 'grueziblock/faq', {
 		// </div>
 
 		return (
-			<div className={ className }>
-				<h4>{ question }</h4>
-				<p className="answer">
-					{ answer }
-				</p>
-			</div>
+			<h4 className={ className }>{ question }</h4>
 		);
 	}
 } );
