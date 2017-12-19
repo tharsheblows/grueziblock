@@ -94,7 +94,7 @@ registerBlockType('grueziblock/faq', {
 
 		// This is so you can see when it runs. :) 
 
-		console.log('Hey! the save function in registerBlockType just ran. :) ');
+		console.log('Hey! The save function in registerBlockType in the postcontent block just ran. :) ');
 
 		// this is what gets saved. Anything returned here will go into post_content.
 		// this is what it will look like on the front end:

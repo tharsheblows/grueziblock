@@ -69,15 +69,11 @@ registerBlockType('grueziblock/faqmeta', {
 		);
 	},
 
-	// Now this is what will save in your database and it's what will be displayed like normal 
-	// except that this will be in between html comments like <!-- wp:grueziblock/faq --> <!-- /wp:grueziblock/faq -->
+	// This has a console log so you can see when it's running.
 	save: function save(props) {
-		var className = props.className,
-		    someText = props.attributes.someText;
 
 		// This is so you can see when it runs. :) 
-
-		console.log('Hey! You just saved or at least tried to save ' + someText + '  :) ');
+		console.log('Hey! The save function in registerBlockType in the postmeta block just ran :) ');
 
 		// This is returning nothing because registerBlockType handles saving the meta for you and you don't want to add anything to post_content
 		return null;
