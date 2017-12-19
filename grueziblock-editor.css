@@ -1,0 +1,23 @@
+.wp-block-grueziblock-faqmeta .blocks-editable p, .wp-block-grueziblock-faq .blocks-editable h4, .wp-block-grueziblock-faq .blocks-editable p{
+	-moz-box-shadow:    inset 0 0 2px #FFF;
+	-webkit-box-shadow: inset 0 0 2px #FFF;
+	box-shadow:         inset 0 0 2px #FFF;
+	padding: 2px 5px;
+	margin-top: 5px;
+}
+
+.wp-block-grueziblock-faqmeta .blocks-editable p:focus, .wp-block-grueziblock-faq .blocks-editable h4:focus, .wp-block-grueziblock-faq .blocks-editable p:focus{
+	-moz-box-shadow:    inset 0 0 2px #00F;
+	-webkit-box-shadow: inset 0 0 2px #00F;
+	box-shadow:         inset 0 0 2px #00F;
+}
+
+.wp-block-grueziblock-faqmeta .gruezi-info{
+	font-size: 80%;
+}
+
+.wp-block-grueziblock-faqmeta{
+	border: 1px solid #D2D2D2;
+	background: #F2F2F2;
+	padding: 0 10px 5px 10px;
+}
