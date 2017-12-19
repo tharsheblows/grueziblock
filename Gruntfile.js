@@ -24,7 +24,7 @@ module.exports = function( grunt ) {
 
 		watch:  {
 			babel: {
-				files: ['blocks/*.jsx'],
+				files: ['blocks/jsx/*.jsx'],
 				tasks: ['babel'],
 			},
 		}

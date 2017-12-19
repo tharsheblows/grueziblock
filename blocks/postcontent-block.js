@@ -13,11 +13,18 @@ registerBlockType('grueziblock/faq', {
 	icon: 'index-card', // you can pick different icons. there must be a list somewhere.
 	category: 'common', // where do you want this to show up? this will be under "common" in the blocks
 	attributes: {
-		// this is a faq with only questions. It's frequently asked *questions*, it says nothing about answers.
+		// our faq, like many faqs, will have questions and answers
+		// the question attribute is going to be an h4 element even though I am fairly sure this isn't good
 		question: {
 			type: 'array',
 			source: 'children',
 			selector: 'h4'
+		},
+		// the answer attribute will be in a div with class="answer". 
+		answer: {
+			type: 'array',
+			source: 'children',
+			selector: '.answer'
 		}
 	},
 
@@ -28,11 +35,6 @@ registerBlockType('grueziblock/faq', {
 		var focusedEditable = props.focus ? props.focus.editable || null : null;
 
 		var attributes = props.attributes;
-
-		if (attributes.length > 0 && attributes.frequentlyAskedQuestion.length > 0) {
-			props.setAttributes({ question: attributes.frequentlyAskedQuestion[0].q });
-			props.setAttributes({ answer: attributes.frequentlyAskedQuestion[0].a });
-		}
 
 		// the function which handles what happens when the question is changed
 		var onChangeQuestion = function onChangeQuestion(value) {
@@ -59,15 +61,27 @@ registerBlockType('grueziblock/faq', {
 		// but you see that I'm putting the question in an h4 and the answer in a div with class="answer". In React you need to use className instead of class for reasons I forget.
 		// 
 		// So for each editable field, I use an Editable compontent which handles the editableness of that bit. I can put html all around everything
-		return React.createElement(Editable, {
-			tagName: 'h4',
-			className: props.className,
-			placeholder: __('Please add a question here'),
-			value: attributes.question,
-			onChange: onChangeQuestion,
-			focus: focusedEditable === 'question',
-			onFocus: onFocusQuestion
-		});
+		return React.createElement(
+			'div',
+			{ className: props.className, key: 'editor' },
+			React.createElement(Editable, {
+				tagName: 'h4',
+				placeholder: __('Please add a question here'),
+				value: attributes.question,
+				onChange: onChangeQuestion,
+				focus: focusedEditable === 'question',
+				onFocus: onFocusQuestion
+			}),
+			React.createElement(Editable, {
+				tagName: 'p',
+				className: 'answer',
+				placeholder: __('Please add an answer here'),
+				value: attributes.answer,
+				onChange: onChangeAnswer,
+				focus: focusedEditable === 'answer',
+				onFocus: onFocusAnswer
+			})
+		);
 	},
 
 	// Now this is what will save in your database and it's what will be displayed like normal 
@@ -94,9 +108,18 @@ registerBlockType('grueziblock/faq', {
 		// </div>
 
 		return React.createElement(
-			'h4',
+			'div',
 			{ className: className },
-			question
+			React.createElement(
+				'h4',
+				null,
+				question
+			),
+			React.createElement(
+				'p',
+				{ className: 'answer' },
+				answer
+			)
 		);
 	}
 });
