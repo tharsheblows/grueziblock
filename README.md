@@ -9,7 +9,11 @@ I think I've done it so that you can just use the plugin; copy it to your plugin
 If you want to edit the blocks, edit the jsx files. These use [the Editable component](https://wordpress.org/gutenberg/handbook/blocks/introducing-attributes-and-editable-fields/). 
 
 To play around with it:
-- clone the repo
-- run "npm install"
-- build using "grunt"
-- watch the jsx files with "grunt watch"
+* clone the repo
+* run "npm install"
+* build using "grunt"
+* watch the jsx files with "grunt watch"
+
+Current issues relevant to meta:
+* [Deleting a block with meta attribute does not delete value in database](https://github.com/WordPress/gutenberg/issues/4054)
+* [Meta boxes: server side validation fails](https://github.com/WordPress/gutenberg/issues/3964)
