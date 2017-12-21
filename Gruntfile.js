@@ -17,7 +17,8 @@ module.exports = function( grunt ) {
 			dist: {
 				files: {
 					'blocks/postmeta-block.js': 'blocks/jsx/postmeta-block.jsx',
-					'blocks/postcontent-block.js': 'blocks/jsx/postcontent-block.jsx'
+					'blocks/postcontent-block.js': 'blocks/jsx/postcontent-block.jsx',
+					'blocks/metafromregisterrestfield-block.js': 'blocks/jsx/metafromregisterrestfield-block.jsx'
 				}
 			}
 		},
