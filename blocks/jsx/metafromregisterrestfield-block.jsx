@@ -17,6 +17,9 @@ registerBlockType( 'grueziblock/faqrestfield', {
 	title: __( 'Hello faq rest field :)' ), // this is what shows in the blocks list
 	icon: 'dashicons-admin-home', // It's a house. https://developer.wordpress.org/resource/dashicons/#admin-home
 	category: 'common', // This will be in the "common" tab in the blocks lists.
+	attributes: {
+		somewhere: {} // declaring the attribute here seems to make everything work a bit better, I mean, thinking about it this makes total sense doesn't it?
+	},
 	useOnce: true, // You can only use this once, soz babe
 
 	// this is responsible for the editor side of things in wp-admin when you're making a post
@@ -44,19 +47,20 @@ registerBlockType( 'grueziblock/faqrestfield', {
 		const onChangeFaqField = value => {
 			// why can't I use props.setAttributes here? I have it, it's right there. It's just not working.
 			// why does this work?
-			props.attributes.somewhere = value;
+			props.setAttributes({ somewhere: value.toString() }); // Editable and register_rest_field do *not* play nicely together
 		}
 
 		// It seems that it's entirely possible there's a race condition here with the Editable attribute trying to mount but props.attributes.somewhere hasn't been set
 		// so let's check to make sure it's defined (empty is ok!), can we do it like this -- I mean this is working but I thought it was more complicated
 		if( props.attributes.somewhere !== undefined ){
+			// the value is an array because of Editable and just it just is ok, leave me alone. I need to make it a string SHUT UP
 			let theValue = ( props.attributes.somewhere ) ? [props.attributes.somewhere] : []; // jiggery pokery so the placeholder works
 			return(		
 				<Editable
 					tagName="p"
 					className={ props.className }
 					placeholder={ __( 'wait for it' ) }
-					value={ theValue } // the value is an array because of Editable and just it just is ok, leave me alone. I need to make it a string SHUT UP
+					value={ theValue } 
 					onChange={ onChangeFaqField }
 				/>
 			);
@@ -64,7 +68,9 @@ registerBlockType( 'grueziblock/faqrestfield', {
 
 		// Ok so tell me why props.setAttributes works here? Because it does! Weird.
 		// TODO: revisit this because I might be doing something stupid
-		props.setAttributes({ somewhere: props.post.data.grueziblock_somewhere });
+		if( props.attributes.somewhere === undefined ){
+			props.setAttributes({ somewhere: props.post.data.grueziblock_somewhere });
+		}
 		// so if there's no props.attributes.somewhere then we're here
 		return "how did we get here then?";
 
@@ -97,13 +103,14 @@ class GrueziblockSomewhereSave extends Component {
 		// This is the published post (or the post id it will have it's published)
 		// oh hey look! There's a revisions object in post data with count and last_id.
 		// something to keep in mind
-
-		let somewhere = ( attributes.somewhere ) ? attributes.somewhere.toString() : null; // Editable and register_rest_field do *not* play nicely together
+		console.log( attributes.somewhere );
+		let somewhere = ( attributes.somewhere ) ? attributes.somewhere : null; 
 
 		// the first time this is loaded, it's null 
 		// I need to check exactly when this is running because it doesn't seem to be running on autosave which makes sense? does it make sense?
 		if( somewhere ){
 			let body = { grueziblock_somewhere: somewhere }; 
+			console.log( somewhere );
 			// props.post.patch();
 			// I'm so so so so so sorry, I'm skipping figuring out how the function above works, I am using jQuery just to move on.
 			jQuery.ajax({
